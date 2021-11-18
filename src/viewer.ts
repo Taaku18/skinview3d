@@ -1,5 +1,5 @@
 import { inferModelType, isTextureSource, loadCapeToCanvas, loadImage, loadSkinToCanvas, ModelType, RemoteImage, TextureSource } from "skinview-utils";
-import { Color, ColorRepresentation, EquirectangularReflectionMapping, Group, NearestFilter, PerspectiveCamera, Scene, Texture, Vector2, WebGLRenderer } from "three";
+import { AmbientLight, Color, ColorRepresentation, DirectionalLight, EquirectangularReflectionMapping, Group, NearestFilter, PerspectiveCamera, Scene, Texture, Vector2, WebGLRenderer } from "three";
 import { RootAnimation } from "./animation.js";
 import { BackEquipment, PlayerObject } from "./model.js";
 
@@ -105,6 +105,13 @@ export class SkinViewer {
 
 		this.camera = new PerspectiveCamera();
 		this.camera.position.z = 60;
+
+		let light = new DirectionalLight(0xFFFFFF, .4);
+		light.position.set(0, 0, 30);
+		light.target.position.set(0, 0, 0);
+		this.scene.add(light);
+		this.scene.add(light.target);
+		this.scene.add(new AmbientLight(0xFFFFFF, .6));
 
 		this.renderer = new WebGLRenderer({
 			canvas: this.canvas,
